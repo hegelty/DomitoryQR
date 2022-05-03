@@ -1,44 +1,39 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
 <head>
-<title>Cross-Browser QRCode generator for Javascript</title>
+<title>아침점호 QR생성기</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
 <script type="text/javascript" src="jquery.min.js"></script>
 <script type="text/javascript" src="qrcode.js"></script>
 </head>
 <body>
-<input id="text" type="text" value="http://jindo.dev.naver.com/collie" style="width:80%" /><br />
+스마트기숙관리 ID는 https://isds.kr 에서 사용되는 ID를 의미합니다.<br>
+개발자에게 문의/건의 : 디스코드 태양#7220<br>
+<hr>
+스마트기숙관리 ID: <input id="isds_id" type="text" value="" style="width:80%" /><br/>
+이름: <input id="name" type="text" value="" style="width:80%" /><br/>
+<button id="button" onclick="makeCode();">생성</button>
 <div id="qrcode" style="width:100px; height:100px; margin-top:15px;"></div>
 
 <script type="text/javascript">
 var qrcode = new QRCode(document.getElementById("qrcode"), {
-	width : 100,
-	height : 100
+	width : 200,
+	height : 200
 });
 
 function makeCode () {		
-	var elText = document.getElementById("text");
+	var idText = document.getElementById("isds_id");
+	var nameText = document.getElementById("name");
 	
-	if (!elText.value) {
-		alert("Input a text");
-		elText.focus();
+	if (!idText.value||!nameText.value||isNaN(idText.value)) {
+		alert("아이디와 이름을 입력하세요.");
+		isds_id.focus();
 		return;
 	}
 	
-	qrcode.makeCode(elText.value);
+	qrcode.makeCode('gbs|'+idText.value+'|'+encodeURIComponent(nameText.value));
 }
 
-makeCode();
-
-$("#text").
-	on("blur", function () {
-		makeCode();
-	}).
-	on("keydown", function (e) {
-		if (e.keyCode == 13) {
-			makeCode();
-		}
-	});
 </script>
 </body>
